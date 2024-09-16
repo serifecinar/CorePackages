@@ -1,4 +1,5 @@
-﻿using Core.Persistance.Paging;
+﻿using Core.Persistance.Dynamic;
+using Core.Persistance.Paging;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ public interface IAsyncRepository<TEntity,TEntityId> : IQueryable<TEntity>
         CancellationToken cancellationToken = default);
 
     Task<Paginate<TEntity>> GetListByDynamicAsync(
-        DynamicQuery dynamic,
+        DinamicQuery dynamic,
         Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         int index = 0,

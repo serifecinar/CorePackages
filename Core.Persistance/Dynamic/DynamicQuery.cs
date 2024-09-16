@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 
 namespace Core.Persistance.Dynamic;
 
-public class DinamicQuery
+public class DynamicQuery
 {
     public IEnumerable<Sort>? Sort { get; set; }
     public Filter? Filter { get; set; }
-    public DinamicQuery()
+    public DynamicQuery()
     {
         
     }
 
-    public DinamicQuery(IEnumerable<Sort>? sort, Filter? filter)
+    public DynamicQuery(IEnumerable<Sort>? sort, Filter? filter)
     {
         Filter= filter;
         Sort= sort;
     }
 }
+
+// klasik adonet tarafı -- select *from cars where unitPrice<100 and (transmition=1 or dfgdfgdfg)
+// p=>p.unitPrice<=100 && ()

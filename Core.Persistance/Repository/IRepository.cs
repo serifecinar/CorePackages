@@ -33,7 +33,7 @@ public interface IRepository<TEntity, TEntityId>: IQueryable<TEntity>
         CancellationToken cancellationToken = default);
 
     Paginate<TEntity> GetListByDynamic(
-        DinamicQuery dynamic,
+        DynamicQuery dynamic,
         Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         int index = 0,

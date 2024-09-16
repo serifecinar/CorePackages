@@ -33,7 +33,7 @@ public interface IAsyncRepository<TEntity,TEntityId> : IQueryable<TEntity>
         CancellationToken cancellationToken = default);
 
     Task<Paginate<TEntity>> GetListByDynamicAsync(
-        DinamicQuery dynamic,
+        DynamicQuery dynamic,
         Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         int index = 0,

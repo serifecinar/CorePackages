@@ -3,19 +3,14 @@ using Core.Persistance.Paging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Query;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Persistance.Repository;
 
-public class EfRepositoryBase<TEntity,TEntityId,TContext>
-    :IAsyncRepository<TEntity,TEntityId>, IRepository<TEntity,TEntityId>
+public class EfRepositoryBase<TEntity, TEntityId, TContext>
+    : IAsyncRepository<TEntity, TEntityId>, IRepository<TEntity, TEntityId>
     where TEntity : Entity<TEntityId>
     where TContext : DbContext
 {
@@ -35,9 +30,9 @@ public class EfRepositoryBase<TEntity,TEntityId,TContext>
     }
 
     public async Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entities)
-    {       
-        foreach(TEntity entity in entities)
-        entity.CreatedDate = DateTime.UtcNow;
+    {
+        foreach (TEntity entity in entities)
+            entity.CreatedDate = DateTime.UtcNow;
         await Context.AddRangeAsync(entities);
         await Context.SaveChangesAsync();
         return entities;
@@ -50,14 +45,14 @@ public class EfRepositoryBase<TEntity,TEntityId,TContext>
             queryable = queryable.AsNoTracking();
         if (withDeleted)
             queryable = queryable.IgnoreQueryFilters();
-        if (predicate!=null)
-            queryable=queryable.Where(predicate);
+        if (predicate != null)
+            queryable = queryable.Where(predicate);
         return await queryable.AnyAsync(cancellationToken);
     }
 
     public async Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false)
     {
-        await SetEntityAsDeletedAsync(entity,permanent);
+        await SetEntityAsDeletedAsync(entity, permanent);
         await Context.SaveChangesAsync();
         return entity;
     }
@@ -132,7 +127,7 @@ public class EfRepositoryBase<TEntity,TEntityId,TContext>
 
     protected async Task SetEntityAsDeletedAsync(TEntity entity, bool permanent)
     {
-        if(!permanent)
+        if (!permanent)
         {
             CheckHasEntityHaveOneToOneRelation(entity);
             await setEntityAsSoftDeletedAsync(entity);
